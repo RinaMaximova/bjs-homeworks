@@ -21,10 +21,10 @@ function memorize(fn, limit) {
     let memory = [];
 
     return (...args) => {
-        for (let i = 0; i < memory.length; i++) {
-            if (compareArrays(memory[i].args, args)) {
-                return memory[i].result;
-            }
+        let memo = memory.find(arr => compareArrays(arr.args, args));
+
+        if (memo) {
+            return memo.result;
         }
 
         let result = fn(...args);
