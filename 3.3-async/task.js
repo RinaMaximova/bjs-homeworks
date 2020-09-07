@@ -75,3 +75,44 @@ class AlarmClock {
         this.alarmCollection = [];
     }
 }
+
+function testCase() {
+    const alarm = new AlarmClock();
+
+    alarm.addClock(getAdvancedCurrentTime(0), () => {
+        console.log('Сообщение 1');
+    }, 1);
+    alarm.addClock(getAdvancedCurrentTime(1), () => {
+        console.log('Сообщение 2');
+        alarm.removeClock(2);
+    }, 2);
+    alarm.addClock(getAdvancedCurrentTime(2), () => {
+        console.log('Сообщение 3');
+        alarm.stop();
+        alarm.clearAlarms();
+        alarm.printAlarms();
+    }, 3);
+
+    alarm.printAlarms();
+    alarm.start();
+}
+
+function getAdvancedCurrentTime(plusMinutes) {
+    if (plusMinutes === undefined || plusMinutes > 60) {
+        throw new Error('invalid argument')
+    }
+
+    let date = new Date();
+    let hours = date.getHours();
+    let minutes = date.getMinutes() + plusMinutes;
+
+    if (minutes >= 60) {
+        hours += 1;
+        minutes -= 60;
+    }
+
+    hours = hours < 10 ? `0${hours}` : hours;
+    minutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    return hours + ":" + minutes;
+}
